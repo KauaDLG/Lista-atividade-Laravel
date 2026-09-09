@@ -2,49 +2,60 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Aluno;
 use Illuminate\Http\Request;
 
 class AlunoController extends Controller
 {
-    // ATV 4 - listar alunos
     public function index()
     {
-        return 'Lista de alunos';
+        $alunos = Aluno::all();
+        return view('alunos.index', compact('alunos'));
     }
 
-    // ATV 4 - mostrar um aluno
-    public function show($id)
-    {
-        return 'Visualizando aluno ' . $id;
-    }
-
-    // ATV 4 - formulário de cadastro
     public function create()
     {
-        return 'Formulário de cadastro de aluno';
+        return view('alunos.create');
     }
 
-    // ATV 4 - cadastrar aluno
     public function store(Request $request)
     {
-        return 'Aluno cadastrado';
+        $dados = $request->validate([
+            'nome'  => 'required|string|max:255',
+            'curso' => 'required|string|max:255',
+        ]);
+
+        Aluno::create($dados);
+
+        return redirect()->route('alunos.index')->with('success', 'Aluno cadastrado com sucesso!');
     }
 
-    // ATV 4 - formulário de edição
-    public function edit($id)
+    public function show(Aluno $aluno)
     {
-        return 'Editando aluno ' . $id;
+        return view('alunos.show', compact('aluno'));
     }
 
-    // ATV 4 - atualizar aluno
-    public function update(Request $request, $id)
+    public function edit(Aluno $aluno)
     {
-        return 'Aluno ' . $id . ' atualizado';
+        return view('alunos.edit', compact('aluno'));
     }
 
-    // ATV 4 - excluir aluno
-    public function destroy($id)
+    public function update(Request $request, Aluno $aluno)
     {
-        return 'Aluno ' . $id . ' excluído';
+        $dados = $request->validate([
+            'nome'  => 'required|string|max:255',
+            'curso' => 'required|string|max:255',
+        ]);
+
+        $aluno->update($dados);
+
+        return redirect()->route('alunos.index')->with('success', 'Aluno atualizado com sucesso!');
+    }
+
+    public function destroy(Aluno $aluno)
+    {
+        $aluno->delete();
+
+        return redirect()->route('alunos.index')->with('success', 'Aluno removido com sucesso!');
     }
 }
