@@ -5,3 +5,10 @@ public function down(): void
         $table->dropColumn('user_id');
     });
 }
+
+public function down(): void
+{
+    Schema::table('users', function (Blueprint $table) {
+        $table->dropColumn('role');
+    });
+}

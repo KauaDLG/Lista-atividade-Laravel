@@ -17,9 +17,19 @@ class User extends Authenticatable
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
 
-    public function aluno(): HasOne
+    public function aluno(): HasOne 
 {
     return $this->hasOne(Aluno::class);
+}
+
+public function isAdmin(): bool
+{
+    return $this->role === 'admin';
+}
+
+public function isProfessor(): bool
+{
+    return $this->role === 'professor';
 }
     /**
      * Get the attributes that should be cast.
@@ -33,5 +43,7 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-}
+} 
+
+
 use Illuminate\Database\Eloquent\Relations\HasOne;
