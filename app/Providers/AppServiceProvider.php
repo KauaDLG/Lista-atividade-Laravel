@@ -14,6 +14,15 @@ class AppServiceProvider extends ServiceProvider
         //
     }
 
+    use App\Models\Aluno;
+use App\Policies\AlunoPolicy;
+use Illuminate\Support\Facades\Gate;
+
+public function boot(): void
+{
+    Gate::policy(Aluno::class, AlunoPolicy::class);
+}
+
     /**
      * Bootstrap any application services.
      */
