@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Aluno;
 use Illuminate\Http\Request;
+use App\Models\Aluno;
 
 class AlunoController extends Controller
 {
@@ -58,4 +59,14 @@ class AlunoController extends Controller
 
         return redirect()->route('alunos.index')->with('success', 'Aluno removido com sucesso!');
     }
+}
+
+public function index()
+{
+    $alunosPorCurso = Aluno::where('curso', 'ADS')->get();
+    $alunosPorNome = Aluno::where('nome', 'like', '%Silva%')->get();
+    $alunosRecentes = Aluno::where('created_at', '>=', now()->subDays(7))->get();
+    $totalAlunos = Aluno::count();
+
+    return view('alunos.index', compact('alunosPorCurso', 'alunosPorNome', 'alunosRecentes', 'totalAlunos'));
 }
