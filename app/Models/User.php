@@ -17,6 +17,10 @@ class User extends Authenticatable
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
 
+    public function aluno(): HasOne
+{
+    return $this->hasOne(Aluno::class);
+}
     /**
      * Get the attributes that should be cast.
      *
@@ -30,3 +34,4 @@ class User extends Authenticatable
         ];
     }
 }
+use Illuminate\Database\Eloquent\Relations\HasOne;
